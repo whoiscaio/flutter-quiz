@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz/quiz.dart';
 
 void main() {
   runApp(const App());
@@ -14,7 +15,7 @@ class App extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Flutter Quiz'),
         ),
-        body: const Text('QUIZ'),
+        body: const Quiz(),
       )
     );
   }
