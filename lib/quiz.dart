@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_quiz/finish_screen.dart';
 import 'package:flutter_quiz/start_screen.dart';
 
 class _QuizState extends State<Quiz> {
@@ -54,6 +55,15 @@ class _QuizState extends State<Quiz> {
     });
   }
 
+  void _restartQuiz() {
+    setState(() {
+      _selectedQuestion = 0;
+      _correctAnswers = 0;
+      _quizFinished = false;
+      _quizStarted = false;
+    });
+  }
+
   void _handleAnswer(String selectedAnswer) {
     if (selectedAnswer == quiz[_selectedQuestion]['answer']) {
       setState(() {
@@ -77,27 +87,29 @@ class _QuizState extends State<Quiz> {
     List<String> answers = quiz[_selectedQuestion]['options'];
 
     return _quizStarted ? (
-      Container(
-        width: double.infinity,
-        margin: const EdgeInsets.all(10),
-        child: Column(
-          children: [
-            Text(
-              question,
-              style: const TextStyle(
-                fontSize: 20
-              )
-            ),
-            ...answers.map((answer) => (
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size.fromHeight(40),
-                ),
-                onPressed: () => _handleAnswer(answer),
-                child: Text(answer)
-              )
-            ))
-          ]
+      _quizFinished ? FinishScreen(_correctAnswers, _restartQuiz) : (
+        Container(
+          width: double.infinity,
+          margin: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Text(
+                question,
+                style: const TextStyle(
+                  fontSize: 20
+                )
+              ),
+              ...answers.map((answer) => (
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(40),
+                  ),
+                  onPressed: () => _handleAnswer(answer),
+                  child: Text(answer)
+                )
+              ))
+            ]
+          )
         )
       )
     ) : StartScreen(_startQuiz);
